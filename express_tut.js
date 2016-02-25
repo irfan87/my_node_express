@@ -54,6 +54,24 @@ app.get('/thankyou', function(req, res){
 	res.render('thankyou');
 });
 
+app.get('/file-upload', function(req, res){
+	var now = new Date();
+	res.render('file-upload', {
+		year: now.getFullYear(),
+		month: now.getMonth() 
+	});
+});
+
+app.post('/file-upload/:year/:month', function(req, res){
+	var form = new formidable.IncomingForm();
+	form.parse(req, function(err, fields, file){
+		if (err) return res.redirect(303, '/error');
+		console.log('Received file');
+		console.log(file);
+		res.redirect(303, '/thankyou');
+	});
+});
+
 app.post('/process', function(req, res){
 	console.log('Form: ' + req.query.form);
 	console.log('CSRF token: ' + req.body._csrf);
