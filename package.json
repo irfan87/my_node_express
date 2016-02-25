@@ -10,7 +10,10 @@
   "author": "Ahmad Irfan",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.15.0",
+    "cookie-parser": "^1.4.1",
     "express": "^4.13.4",
-    "express-handlebars": "^3.0.0"
+    "express-handlebars": "^3.0.0",
+    "formidable": "^1.0.17"
   }
 }
