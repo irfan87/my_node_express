@@ -39,6 +39,10 @@ app.get('/about', function(req, res){
 	res.render('about');
 });
 
+app.get('/contact', function(req, res){
+	res.render('contact');
+});
+
 app.use(function(req, res){
 	res.type('text/html');
 	res.status(404);
