@@ -19,8 +19,36 @@ app.get('/', function(req, res){
 	res.render('home');
 });
 
+app.use(function(req, res, next){
+	console.log("Looking for URL : " + req.url);
+
+	next();
+});
+
+app.get('/junk', function(req, res, next){
+	console.log('Tried to access /junk');
+	throw new Error('/junk doesn\'t exists');
+}); 
+
+app.use(function(err, req, res, next){
+	console.log("Error: " + err.message);
+	next();
+});
+
 app.get('/about', function(req, res){
 	res.render('about');
+});
+
+app.use(function(req, res){
+	res.type('text/html');
+	res.status(404);
+	res.render('404');
+});
+
+app.use(function(req, res, err, next){
+	console.log(err.stack);
+	res.status(500);
+	res.render('500');
 });
 
 app.listen(app.get('port'), function(){
