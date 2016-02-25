@@ -72,6 +72,20 @@ app.post('/file-upload/:year/:month', function(req, res){
 	});
 });
 
+app.get('/cookie', function(req, res){
+	res.cookie('username', 'Irfan', {expire: new Date() + 9999}).send('username has the value of Irfan');
+});
+
+app.get('/listcookies', function(req, res){
+	console.log("Cookies: ", req.cookies);
+	res.send("Look in the console for cookies");
+});
+
+app.get('/deletecookie', function(req, res){
+	res.clearCookie('username');
+	res.send('username Cookie Deleted');
+});
+
 app.post('/process', function(req, res){
 	console.log('Form: ' + req.query.form);
 	console.log('CSRF token: ' + req.body._csrf);
