@@ -114,6 +114,34 @@ app.get('/viewcount', function(req, res, next){
 	res.send('You viewed this page ' + req.session.views['/viewcount'] + ' times');
 });
 
+var fs = require('fs');
+
+app.get('/readfile', function(req, res, next){
+	fs.readFile('./public/randomfile.txt', function(err, data){
+		if(err){
+			return console.error(err);
+		}
+
+		res.send("the file: " + data.toString());
+	});
+});
+
+app.get('/writefile', function(req, res, next){
+	fs.writeFile('./public/lorem_hipsum.txt', 'More random text', function(err){
+		if(err){
+			return console.error(err);
+		}
+	});
+
+	fs.readFile('./public/lorem_hipsum.txt', function(err, data){
+		if(err){
+			return console.error(err);
+		}
+
+		res.send("the file: " + data.toString());
+	});
+});
+
 app.post('/process', function(req, res){
 	console.log('Form: ' + req.query.form);
 	console.log('CSRF token: ' + req.body._csrf);
@@ -134,8 +162,6 @@ app.use(function(req, res, err, next){
 	res.status(500);
 	res.render('500');
 });
-
-
 
 app.listen(app.get('port'), function(){
 	console.log("Express started on http://localhost:" + app.get('port') + ". Press CTRL-C to terminate.");
