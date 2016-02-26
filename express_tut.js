@@ -86,6 +86,34 @@ app.get('/deletecookie', function(req, res){
 	res.send('username Cookie Deleted');
 });
 
+var session = require('express-session');
+
+var parseurl = require('parseurl');
+
+app.use(session({
+	resave: false,
+	saveUninitialized: true,
+	secret: credentials.cookieSecret,
+}));
+
+app.use(function(req, res, next){
+	var views = req.session.views;
+
+	if(!views){
+		views = req.session.views = {};
+	}
+
+	var pathname = parseurl(req).pathname;
+
+	views[pathname] = (views[pathname] || 0 ) + 1;
+
+	next();
+});
+
+app.get('/viewcount', function(req, res, next){
+	res.send('You viewed this page ' + req.session.views['/viewcount'] + ' times');
+});
+
 app.post('/process', function(req, res){
 	console.log('Form: ' + req.query.form);
 	console.log('CSRF token: ' + req.body._csrf);
